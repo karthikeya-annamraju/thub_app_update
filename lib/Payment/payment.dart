@@ -74,14 +74,12 @@ class _PaymentState extends State<Payment> {
             ),
 
             // Courses
-            Expanded(child: Container(
-              child: ListView.builder(itemCount: courseData.length , itemBuilder: (context, index){
-                return Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: CourseDueDetails(index),
-                );
-              }),
-            ))
+            Expanded(child: ListView.builder(itemCount: courseData.length , itemBuilder: (context, index){
+              return Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: courseDueDetails(index),
+              );
+            }))
 
           ],
         ),
@@ -91,7 +89,7 @@ class _PaymentState extends State<Payment> {
 
 
   // Container that contains the details of the course fee due details
-  Container CourseDueDetails(int ind){
+  Container courseDueDetails(int ind){
     return Container(
       height: 100,
       decoration: BoxDecoration(
@@ -126,7 +124,7 @@ class _PaymentState extends State<Payment> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(courseData[ind], style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.green),),
-        // Text("₹ 20000 ", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),),
+        Text("₹ 20000 ", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),),
 
       ],
     );

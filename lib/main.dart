@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thub_app_update/Payment/payment.dart';
 
+import 'Payment/payment2.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -20,10 +22,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-
       ),
       debugShowCheckedModeBanner: false,
-      home: Payment(),
+      home: PaymentDup(),
     );
   }
 }

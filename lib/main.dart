@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:thub_app_update/Payment/payment.dart';
 
+import 'Payment/payment2.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -18,9 +20,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-
-      ),
       debugShowCheckedModeBanner: false,
       home: Payment(),
     );

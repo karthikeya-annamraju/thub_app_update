@@ -13,9 +13,9 @@ class Payment extends StatefulWidget {
 
 class _PaymentState extends State<Payment> {
   String totalPayment = "24000";
-  dynamic courseData = ["Java", "RedHat", "FSD with React Native"];
+  dynamic courseData = ["Java", "RedHat", "FSD with React Native", "Java"];
   bool isPaid = false;
-  double turns = 1;
+  double turns = 0;
   @override
   Widget build(BuildContext context) {
     double devHeight = MediaQuery.of(context).size.height;
@@ -56,7 +56,7 @@ class _PaymentState extends State<Payment> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(int.parse(totalPayment) >= 1? "Total Payment Due": "No Due", style: GoogleFonts.poppins(fontSize: 20),),
-                        Text("₹ $totalPayment", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 35),),
+                        Text("₹ $totalPayment", style: Theme.of(context).textTheme.headlineLarge,),
                       ],
                     ),
                   ),
@@ -76,44 +76,58 @@ class _PaymentState extends State<Payment> {
             // Courses
             Expanded(child: ListView.builder(itemCount: courseData.length , itemBuilder: (context, index){
               return Padding(
-                padding: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 12, left: 3, right: 3),
                 child: courseDueDetails(index),
               );
-            }))
-
+            })),
           ],
         ),
       ),
     );
   }
 
-
   // Container that contains the details of the course fee due details
-  Container courseDueDetails(int ind){
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade400,
-            blurRadius: 1.5,
-            spreadRadius: 1,
-            offset: Offset(2, 2.3),
-          )
-        ],
-      ),
-
-      child: Padding(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            technologyName(ind),
-            feeDetails(ind),
+  IntrinsicHeight courseDueDetails(int ind){
+    return IntrinsicHeight(
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 1000),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade400,
+              blurRadius: 1.5,
+              spreadRadius: 1,
+              offset: Offset(2, 2.3),
+            )
           ],
-        )
+        ),
+
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: (){
+                  setState(() {
+                    turns == 0? turns += 2/4: turns -= 2/4;
+                  });
+                },
+                child: technologyName(ind),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: turns == 0? List.generate(1, (i)=> feeDetails(i)) :List.generate(3, (index)=>Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: feeDetails(index),
+                )),
+              ),
+
+            ],
+          )
+        ),
       ),
     );
   }
@@ -122,39 +136,34 @@ class _PaymentState extends State<Payment> {
   Row technologyName(int ind){
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(courseData[ind], style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.green),),
-        Text("₹ 20000 ", style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green),),
-
+        AnimatedRotation(turns: turns, duration: Duration(milliseconds: 300),
+          child: Transform.rotate(angle: 90*pi/180, child: Icon(Icons.arrow_forward_ios_rounded, color: turns <= 1/4? Colors.black: Colors.green,),),
+        )
       ],
     );
   }
 
   Row feeDetails(int ind){
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          flex: 1,
-          child: Text("Term-03", style: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 15, fontWeight: FontWeight.w600),),
-        ),
-        Expanded(
-          flex: 2,
-          child: Text("Due date: 16/08/24", style: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 15, fontWeight: FontWeight.w600),),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Expanded(
-            flex: 2,
-            child: Container(
-              height: 30,
-              width: 75,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-                color: Colors.lightGreenAccent,
-              ),
-            )
+        Text("Term-03", style: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 15, fontWeight: FontWeight.w600),),
+        Text("Due date: 16/08/24", style: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 15, fontWeight: FontWeight.w600),),
+        turns == 0? Container(
+          height: MediaQuery.of(context).size.height*(0.15/5),
+          width: MediaQuery.of(context).size.width*(0.7/5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: Colors.lightGreenAccent,
           ),
-        ),
+          child: Center(
+            child: Text("Paid"),
+          ),
+        ): 
+            Text("80000", style: TextStyle(color: Colors.lightGreen),)
       ],
     );
   }

@@ -16,6 +16,9 @@ class _PaymentState extends State<Payment> {
   dynamic courseData = ["Java", "RedHat", "FSD with React Native", "Java"];
   bool isPaid = false;
   double turns = 0;
+  int ?isOpen;
+  bool tap = false;
+
   @override
   Widget build(BuildContext context) {
     double devHeight = MediaQuery.of(context).size.height;
@@ -80,6 +83,10 @@ class _PaymentState extends State<Payment> {
                 child: courseDueDetails(index),
               );
             })),
+
+            // ExpansionTile(title: Text("Java"),
+            //   subtitle: feeDetails(0),
+            // )
           ],
         ),
       ),
@@ -112,16 +119,18 @@ class _PaymentState extends State<Payment> {
               GestureDetector(
                 onTap: (){
                   setState(() {
-                    turns == 0? turns += 2/4: turns -= 2/4;
+                    isOpen != ind? isOpen = ind: isOpen = -1;
+                    isOpen == ind? turns = 2/4 : turns = 0;
+                    tap = !tap;
                   });
                 },
                 child: technologyName(ind),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: turns == 0? List.generate(1, (i)=> feeDetails(i)) :List.generate(3, (index)=>Padding(
+                children: (ind != isOpen)? List.generate(1, (i)=> feeDetails(i, isOpen!, ind)) :List.generate(3, (index)=>Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: feeDetails(index),
+                  child: feeDetails(index, isOpen!, ind),
                 )),
               ),
 
@@ -139,20 +148,20 @@ class _PaymentState extends State<Payment> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(courseData[ind], style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.green),),
-        AnimatedRotation(turns: turns, duration: Duration(milliseconds: 300),
-          child: Transform.rotate(angle: 90*pi/180, child: Icon(Icons.arrow_forward_ios_rounded, color: turns <= 1/4? Colors.black: Colors.green,),),
+        AnimatedRotation(turns: (isOpen == ind)? 2/4 : 0, duration: Duration(milliseconds: 300),
+          child: Transform.rotate(angle: 90*pi/180, child: Icon(Icons.arrow_forward_ios_rounded, color: (isOpen == ind)? Colors.green: Colors.black,),),
         )
       ],
     );
   }
 
-  Row feeDetails(int ind){
+  Row feeDetails(int ind, int tapped, int i){
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Term-03", style: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 15, fontWeight: FontWeight.w600),),
         Text("Due date: 16/08/24", style: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 15, fontWeight: FontWeight.w600),),
-        turns == 0? Container(
+        (tapped != i)? Container(
           height: MediaQuery.of(context).size.height*(0.15/5),
           width: MediaQuery.of(context).size.width*(0.7/5),
           decoration: BoxDecoration(
@@ -163,7 +172,7 @@ class _PaymentState extends State<Payment> {
             child: Text("Paid"),
           ),
         ): 
-            Text("80000", style: TextStyle(color: Colors.lightGreen),)
+            Text("80000", style: TextStyle(color: Colors.lightGreen, fontWeight: FontWeight.bold, fontSize: 16),)
       ],
     );
   }

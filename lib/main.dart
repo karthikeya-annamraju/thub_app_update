@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:thub_app_update/Payment/payment.dart';
 
 import 'Payment/payment2.dart';
+import 'Payment/test.dart';
 
 void main() {
   runApp(const MyApp());

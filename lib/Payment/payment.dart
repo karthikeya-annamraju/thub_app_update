@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
-import 'dart:io';
 
 class Payment extends StatefulWidget {
   const Payment({super.key});
@@ -16,7 +14,7 @@ class _PaymentState extends State<Payment> {
   // MyVariable Names
 
   String totalPayment = "28000"; //Gives the Due amount of the student
-  dynamic courseData = ["Java", "RedHat", "FSD with React Native", "Java"];
+  dynamic courseData = ["Java", "RedHat", "FSD with React Native"];
   dynamic courseInfo = ["Pending", "Paid", "Overdue"];
   bool isPaid = false;
   double turns = 0;
@@ -34,10 +32,10 @@ class _PaymentState extends State<Payment> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: Icon(Icons.arrow_back),
-        title: Text("Payments", style: GoogleFonts.poppins(fontWeight: FontWeight.bold),),
+        title: Text("Payments", style: TextStyle(fontWeight: FontWeight.bold),),
         centerTitle: true,
       ),
-
+      
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -62,8 +60,8 @@ class _PaymentState extends State<Payment> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(int.parse(totalPayment) >= 1? "Total Payment Due": "No Due", style: GoogleFonts.poppins(fontSize: 19),),
-                        Text("₹ $totalPayment", style: GoogleFonts.poppins(fontSize: 30, fontWeight: FontWeight.w600),),
+                        Text(int.parse(totalPayment) >= 1? "Total Payment Due": "No Due", style: TextStyle(fontSize: 19),),
+                        Text("₹ $totalPayment", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),),
                         //Theme.of(context).textTheme.headlineLarge
                       ],
                     ),
@@ -77,7 +75,7 @@ class _PaymentState extends State<Payment> {
               padding: const EdgeInsets.only(top: 25.0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Coursewise", style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 18),),
+                child: Text("Coursewise", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),),
               ),
             ),
 
@@ -100,7 +98,7 @@ class _PaymentState extends State<Payment> {
   IntrinsicHeight courseDueDetails(int ind){
     return IntrinsicHeight(
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 1000),
+        duration: Duration(seconds: 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           color: Colors.white,
@@ -150,8 +148,8 @@ class _PaymentState extends State<Payment> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(courseData[ind], style: GoogleFonts.poppins(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xFF008836)),),
-        AnimatedRotation(turns: (isOpen == ind)? 2/4 : 0, duration: Duration(milliseconds: 300),
+        Text(courseData[ind], style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Color(0xFF008836)),),
+        AnimatedRotation(turns: (isOpen == ind)? 2/4 : 0, duration: Duration(milliseconds: 200),
           child: Transform.rotate(angle: 90*pi/180, child: Icon(Icons.arrow_forward_ios_rounded, color: (isOpen == ind)? Colors.green: Colors.black,),),
         )
       ],
@@ -163,17 +161,17 @@ class _PaymentState extends State<Payment> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Term-03", style: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 12, fontWeight: FontWeight.w600),),
-        Text("Due date: 16/08/24", style: GoogleFonts.poppins(color: Colors.grey.shade600, fontSize: 12, fontWeight: FontWeight.w600),),
+        Text("Term-03", style: TextStyle(color: Colors.grey.shade600, fontSize: 12, fontWeight: FontWeight.w600),),
+        Text("Due date: 16/08/24", style:TextStyle(color: Colors.grey.shade600, fontSize: 12, fontWeight: FontWeight.w600),),
         (tapped != i)? Container(
           height: MediaQuery.of(context).size.height*(0.14/5),
           width: MediaQuery.of(context).size.width*(0.9/5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
-            color: Colors.lightGreenAccent,
+            color: Color(0xFF008836),
           ),
           child: Center(
-            child: Text(courseInfo[ind]),
+            child: Text("Paid"),
           ),
         ): 
             Text("₹80000", style: TextStyle(color: Color(0xFF008836), fontWeight: FontWeight.bold, fontSize: 13),)
